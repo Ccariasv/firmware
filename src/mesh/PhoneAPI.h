@@ -88,7 +88,9 @@ class PhoneAPI
     meshtastic_MeshPacket *packetForPhone = NULL;
 
     // file transfer packets destined for phone. Push it to the queue then free it.
-    meshtastic_XModem xmodemPacketForPhone = meshtastic_XModem_init_zero;
+    // Avoid using the generated aggregate macros here; default-value construction is
+    // friendlier to modern C++ compilers and still zero-initializes the struct.
+    meshtastic_XModem xmodemPacketForPhone{};
 
     // Keep QueueStatus packet just as packetForPhone
     meshtastic_QueueStatus *queueStatusPacketForPhone = NULL;
@@ -100,7 +102,7 @@ class PhoneAPI
     meshtastic_ClientNotification *clientNotification = NULL;
 
     /// We temporarily keep the nodeInfo here between the call to available and getFromRadio
-    meshtastic_NodeInfo nodeInfoForPhone = meshtastic_NodeInfo_init_default;
+    meshtastic_NodeInfo nodeInfoForPhone{};
     // Prefetched node info entries ready for immediate transmission to the phone.
     std::deque<meshtastic_NodeInfo> nodeInfoQueue;
     // Tunable size of the node info cache so we can keep BLE reads non-blocking.
@@ -137,7 +139,7 @@ class PhoneAPI
     /// Load fromRadioScratch with a MyInfo for this connection and record the number it carried.
     void fillMyInfo();
 
-  public:
+public:
     PhoneAPI();
 
     /// Destructor - calls close()
@@ -201,7 +203,7 @@ class PhoneAPI
     /// Queue a LockdownStatus FromRadio for THIS connection only. Each
     /// PhoneAPI owns its own pending-status slot in a file-scope table
     /// (file-scope because adding fields directly to PhoneAPI broke
-    /// USB-CDC enumeration on nRF52); a status produced here will not
+    /// USB-CDC enumeration on the nRF52); a status produced here will not
     /// be delivered to any other connection. `lock_reason` may be
     /// nullptr / empty for non-LOCKED states.
     void queueLockdownStatus(meshtastic_LockdownStatus_State state, const char *lock_reason, uint8_t boots_remaining,
@@ -219,7 +221,7 @@ class PhoneAPI
     bool hasPendingLockdownStatus() const;
 #endif
 
-  protected:
+protected:
     /// Our fromradio packet while it is being assembled
     meshtastic_FromRadio fromRadioScratch = {};
 
@@ -274,7 +276,7 @@ class PhoneAPI
     // any realistic scenario.
 #endif
 
-  private:
+private:
     void releasePhonePacket();
 
     void releaseQueueStatusPhonePacket();
@@ -326,7 +328,7 @@ class PhoneAPI
     /// If the mesh service tells us fromNum has changed, tell the phone
     virtual int onNotify(uint32_t newValue) override;
 
-  public:
+public:
     /// How the lockdown admin gate should treat a phone->radio packet.
     enum class LocalAdminGate {
         NotAdmin,              ///< Not a decodable ADMIN_APP payload; normal handling.
@@ -338,5 +340,5 @@ class PhoneAPI
     /// Classify a phone->radio packet for the lockdown admin gate, ignoring the wire `from` (which a
     /// client can forge) and deciding on the connection's authorization. Fills outAdmin for lockdown.
     static LocalAdminGate classifyLocalAdminPacket(const meshtastic_MeshPacket &p, bool adminAuthorized,
-                                                   meshtastic_AdminMessage &outAdmin);
+                                                    meshtastic_AdminMessage &outAdmin);
 };
