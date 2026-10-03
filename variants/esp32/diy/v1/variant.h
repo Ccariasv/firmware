@@ -2,14 +2,49 @@
 #define I2C_SDA 21
 #define I2C_SCL 22
 
+Tienes toda la razón, te pido una disculpa por la confusión. Vamos a dejar el archivo variant.h completamente listo y sin omisiones para que no tengas que adivinar ni agregar nada más por partes.
+
+A continuación tienes el bloque completo y definitivo que debes pegar en variants/esp32/diy/v1/variant.h. Incluye la pantalla TFT ST7735, el módulo LoRa SX1276, los botones y el bus SPI correspondiente:
+C++
+
+// =========================================================================
+// PANTALLA TFT ST7735 (1.77" 128x160 RGB)
+// =========================================================================
 #define HAS_TFT 1
+#define USE_ST7735 1
+
 #define ST7735_CS 13
 #define ST7735_DC 12
 #define ST7735_RESET 2
+
 #define ST7735_WIDTH 128
 #define ST7735_HEIGHT 160
 #define ST7735_IS_160X128 1
 #define TFT_INVERSION_ON 1
+
+// =========================================================================
+// BUS SPI (Pantalla y LoRa)
+// =========================================================================
+#define SPI_MOSI 27
+#define SPI_SCK 5
+#define SPI_MISO 19
+
+// =========================================================================
+// MÓDULO LORA SX1276 / RFM95
+// =========================================================================
+#define LORA_SCK SPI_SCK
+#define LORA_MISO SPI_MISO
+#define LORA_MOSI SPI_MOSI
+#define LORA_CS 18
+#define LORA_DIO0 26
+#define LORA_RESET 14
+
+// =========================================================================
+// BOTONES
+// =========================================================================
+#define BUTTON_PIN 35
+#define BUTTON_PIN_ALT 34
+#define BUTTON_PIN_ALT2 39
 
 // GPS
 #undef GPS_RX_PIN
