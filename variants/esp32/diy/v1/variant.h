@@ -2,11 +2,6 @@
 #define I2C_SDA 21
 #define I2C_SCL 22
 
-Tienes toda la razón, te pido una disculpa por la confusión. Vamos a dejar el archivo variant.h completamente listo y sin omisiones para que no tengas que adivinar ni agregar nada más por partes.
-
-A continuación tienes el bloque completo y definitivo que debes pegar en variants/esp32/diy/v1/variant.h. Incluye la pantalla TFT ST7735, el módulo LoRa SX1276, los botones y el bus SPI correspondiente:
-C++
-
 // =========================================================================
 // PANTALLA TFT ST7735 (1.77" 128x160 RGB)
 // =========================================================================
