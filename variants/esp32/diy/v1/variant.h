@@ -2,6 +2,13 @@
 #define I2C_SDA 21
 #define I2C_SCL 22
 
+#define HAS_TFT 1
+#define ST7735_CS 13
+#define ST7735_DC 12
+#define ST7735_RESET 2
+#define ST7735_WIDTH 128
+#define ST7735_HEIGHT 160
+
 // GPS
 #undef GPS_RX_PIN
 #undef GPS_TX_PIN
