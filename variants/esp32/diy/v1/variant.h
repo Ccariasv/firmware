@@ -18,6 +18,9 @@
 #define LORA_CS 18
 
 #define LORA_DIO0 26
+// Meshtastic RF95Configuration.h requires LORA_DIO1 to exist for SX127x.
+// It is not used by the RF95 path on this board, so leave it unconnected.
+#define LORA_DIO1 RADIOLIB_NC
 #define LORA_RESET 14
 
 // Este modulo SX127x no usa BUSY/DIO1/DIO2 ni TXEN/RXEN externos.
