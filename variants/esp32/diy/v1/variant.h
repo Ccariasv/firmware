@@ -63,6 +63,9 @@
 
 #define FORCE_LOW_RES 1
 #define DISPLAY_FORCE_SMALL_FONTS
+// TFTDisplay::connect() rotates this panel to landscape (rotation 3).
+// Match the OLED framebuffer geometry to the physical 160x128 landscape area.
+#define SCREEN_ROTATE
 #define SCREEN_TRANSITION_FRAMERATE 5
 
 // LEDA/BL sigue conectado directamente a VCC.
