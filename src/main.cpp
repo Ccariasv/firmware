@@ -996,6 +996,24 @@ void setup()
     defined(USE_ST7796) || defined(USE_SPISSD1306) || defined(HACKADAY_COMMUNICATOR)
     if (screen)
         screen->setup();
+
+#ifdef DIY_V1
+    // ST7735/LovyanGFX reconfigures the shared SPI peripheral.
+    // Restore the SPI bus for the E22 before RadioLib initializes SX126x.
+    pinMode(ST7735_CS, OUTPUT);
+    digitalWrite(ST7735_CS, HIGH);
+
+    pinMode(LORA_CS, OUTPUT);
+    digitalWrite(LORA_CS, HIGH);
+
+    SPI.end();
+    delay(10);
+
+    SPI.begin(LORA_SCK, LORA_MISO, LORA_MOSI, LORA_CS);
+    SPI.setFrequency(4000000);
+
+    LOG_INFO("DIY_V1: SPI restored for E22 after TFT init");
+#endif
 #elif defined(ARCH_PORTDUINO)
     if ((screen_found.port != ScanI2C::I2CPort::NO_I2C || portduino_config.displayPanel) &&
         config.display.displaymode != meshtastic_Config_DisplayConfig_DisplayMode_COLOR) {
