@@ -14,10 +14,7 @@
 #define USE_SX1262
 #define USE_SX1268
 #define USE_LLCC68
-
-// No recomiendo USE_RF95 si físicamente usas solamente E22/SX126x.
-// Si realmente necesitas compatibilidad RF95, puedes volver a habilitarlo.
-// #define USE_RF95
+#define USE_RF95
 
 #define SX126X_CS 18
 #define SX126X_DIO1 33
@@ -40,6 +37,11 @@
 #define LORA_DIO1 SX126X_DIO1
 #define LORA_DIO2 SX126X_BUSY
 #define LORA_RESET SX126X_RESET
+#define LORA_DIO3
+
+// Compatibilidad RF95 del DIY V1 oficial
+#define RF95_RXEN 14
+#define RF95_TXEN 13
 
 
 // ============================================================================
@@ -59,6 +61,7 @@
 // ============================================================================
 
 #define HAS_SCREEN 1
+#define HAS_SPI_TFT 1
 #define USE_TFTDISPLAY 1
 
 #define ST7735S 1
