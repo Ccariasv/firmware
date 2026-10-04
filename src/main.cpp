@@ -997,29 +997,6 @@ void setup()
     if (screen)
         screen->setup();
 
-#ifdef DIY_V1
-    // ST7735 and E22 share SCK/MOSI/MISO, but each device has its own CS.
-    // LovyanGFX configures the shared SPI peripheral during screen->setup().
-    // Restore Arduino SPI for RadioLib without binding a hardware SS pin;
-    // RadioLib controls LORA_CS independently.
-    pinMode(ST7735_CS, OUTPUT);
-    digitalWrite(ST7735_CS, HIGH);
-
-    pinMode(LORA_CS, OUTPUT);
-    digitalWrite(LORA_CS, HIGH);
-
-    delay(5);
-    SPI.end();
-    delay(5);
-
-    SPI.begin(LORA_SCK, LORA_MISO, LORA_MOSI, -1);
-    SPI.setFrequency(4000000);
-
-    digitalWrite(ST7735_CS, HIGH);
-    digitalWrite(LORA_CS, HIGH);
-
-    LOG_INFO("DIY_V1: shared SPI restored SCK=%d MISO=%d MOSI=%d", LORA_SCK, LORA_MISO, LORA_MOSI);
-#endif
 #elif defined(ARCH_PORTDUINO)
     if ((screen_found.port != ScanI2C::I2CPort::NO_I2C || portduino_config.displayPanel) &&
         config.display.displaymode != meshtastic_Config_DisplayConfig_DisplayMode_COLOR) {
