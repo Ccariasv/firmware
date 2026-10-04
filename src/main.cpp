@@ -994,8 +994,10 @@ void setup()
 #if defined(ST7701_CS) || defined(ST7735_CS) || defined(USE_EINK) || defined(ILI9341_DRIVER) || defined(ILI9342_DRIVER) ||       \
     defined(ST7789_CS) || defined(HX8357_CS) || defined(USE_ST7789) || defined(ILI9488_CS) || defined(ST7796_CS) ||              \
     defined(USE_ST7796) || defined(USE_SPISSD1306) || defined(HACKADAY_COMMUNICATOR)
+#ifndef DIY_V1
     if (screen)
         screen->setup();
+#endif
 
 #elif defined(ARCH_PORTDUINO)
     if ((screen_found.port != ScanI2C::I2CPort::NO_I2C || portduino_config.displayPanel) &&
@@ -1008,7 +1010,22 @@ void setup()
 #endif
 #endif
 
+    // DIY V1: initialize the E22 first, before LovyanGFX configures the
+    // shared VSPI host used by the ST7735. Both devices keep the same SPI
+    // controller and separate chip-select lines.
+#ifdef DIY_V1
+    pinMode(ST7735_CS, OUTPUT);
+    digitalWrite(ST7735_CS, HIGH);
+#endif
+
     auto rIf = initLoRa();
+
+#ifdef DIY_V1
+    if (screen) {
+        LOG_INFO("DIY_V1: LoRa init completed; initializing shared-SPI TFT");
+        screen->setup();
+    }
+#endif
 
     lateInitVariant(); // Do board specific init (see extra_variants/README.md for documentation)
 
