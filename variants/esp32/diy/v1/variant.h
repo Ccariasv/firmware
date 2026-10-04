@@ -76,7 +76,7 @@
 #define ST7735_BUSY -1
 
 // ESP32-WROOM clásico
-#define ST7735_SPI_HOST VSPI_HOST
+#define ST7735_SPI_HOST HSPI_HOST
 
 // Frecuencias SPI
 #define SPI_FREQUENCY 40000000
