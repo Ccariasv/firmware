@@ -14,7 +14,6 @@
 #define USE_SX1262
 #define USE_SX1268
 #define USE_LLCC68
-#define USE_RF95
 
 #define SX126X_CS 18
 #define SX126X_DIO1 33
@@ -38,10 +37,6 @@
 #define LORA_DIO2 SX126X_BUSY
 #define LORA_RESET SX126X_RESET
 #define LORA_DIO3
-
-// Compatibilidad RF95 del DIY V1 oficial
-#define RF95_RXEN 14
-#define RF95_TXEN 13
 
 
 // ============================================================================
@@ -80,6 +75,11 @@
 
 // ESP32-WROOM clásico
 #define ST7735_SPI_HOST VSPI_HOST
+
+// LoRa y ST7735 comparten el mismo host SPI.
+// DMA de LovyanGFX debe permanecer desactivado para que RadioLib pueda
+// realizar correctamente sus transferencias CPU/FIFO sobre el mismo bus.
+#define TFT_DMA_CHANNEL 0
 
 // Frecuencias SPI
 #define SPI_FREQUENCY 40000000
