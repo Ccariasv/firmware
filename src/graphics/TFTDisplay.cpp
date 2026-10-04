@@ -29,6 +29,13 @@ uint16_t TFT_MESH = COLOR565(0x67, 0xEA, 0x94);
 #define TFT_INVERT true
 #endif
 
+// Panels sharing the SPI bus with a RadioLib radio must disable DMA.
+// DMA on the shared ESP32 SPI host prevents RadioLib CPU/FIFO transfers
+// from receiving valid data.
+#ifndef TFT_DMA_CHANNEL
+#define TFT_DMA_CHANNEL SPI_DMA_CH_AUTO
+#endif
+
 class LGFX : public lgfx::LGFX_Device
 {
     lgfx::Panel_ST7735S _panel_instance;
@@ -49,7 +56,7 @@ class LGFX : public lgfx::LGFX_Device
             cfg.freq_read = SPI_READ_FREQUENCY; // SPI clock when receiving
             cfg.spi_3wire = false;              // Set to true if reception is done on the MOSI pin
             cfg.use_lock = true;                // Set to true to use transaction locking
-            cfg.dma_channel = SPI_DMA_CH_AUTO;  // SPI_DMA_CH_AUTO; // Set DMA channel to use (0=not use DMA / 1=1ch / 2=ch /
+            cfg.dma_channel = TFT_DMA_CHANNEL;  // SPI_DMA_CH_AUTO; // Set DMA channel to use (0=not use DMA / 1=1ch / 2=ch /
                                                 // SPI_DMA_CH_AUTO=auto setting)
             cfg.pin_sclk = ST7735_SCK;          // Set SPI SCLK pin number
             cfg.pin_mosi = ST7735_SDA;          // Set SPI MOSI pin number
