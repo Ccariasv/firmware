@@ -1,3 +1,5 @@
+#include "configuration.h"
+
 #if HAS_TFT
 
 #include "SPILock.h"
