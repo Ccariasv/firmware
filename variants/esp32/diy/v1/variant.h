@@ -76,9 +76,16 @@
 // GPS
 // ============================================================================
 
-// GPIO12 esta ocupado por ST7735_RS/DC en esta PCB.
-// Se desactiva GPS para evitar conflicto electrico hasta confirmar/reubicar su RX.
-#define HAS_GPS 0
+// NEO-6M UART a 9600 baudios.
+// GPS TX -> ESP32 GPIO16 (RX); GPS RX -> ESP32 GPIO17 (TX).
+// No usar GPIO12: pertenece al TFT ST7735.
+#define HAS_GPS 1
+#define GPS_UBLOX
+#undef GPS_RX_PIN
+#undef GPS_TX_PIN
+#define GPS_RX_PIN 16
+#define GPS_TX_PIN 17
+#define GPS_BAUDRATE 9600
 
 
 // ============================================================================
